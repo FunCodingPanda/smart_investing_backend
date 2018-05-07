@@ -2,7 +2,7 @@
   "name": "smart_investing_backend",
   "version": "1.0.0",
   "description": "*  It allows the users to practice real life direct investment before investing with real cash.  *",
-  "main": "index.js",
+  "main": "app.js",
   "directories": {
     "test": "test"
   },
@@ -27,7 +27,7 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
-    "chai-as-promised": "^6.0.0",
+    "chai-http": "^4.0.0",
     "mocha": "^3.5.3"
   }
 }
