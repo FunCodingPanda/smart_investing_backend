@@ -15,7 +15,7 @@ describe('Users', () => {
   describe('POST /users', () => {
     it('should be able to create a user', (done) => {
       chai.request(app)
-        .post(`/users`)
+        .post('/users')
         .send(testUser)
         .end((err, res) => {
           expect(res.status).to.equal(201)
@@ -36,7 +36,7 @@ describe('Users', () => {
 
     it('should fail to create a user without a name', (done) => {
       chai.request(app)
-        .post(`/users/name`)
+        .post('/users')
         .send({...testUser, name: ''})
         .end((err, res) => {
           expect(res.status).to.equal(400)
@@ -48,7 +48,7 @@ describe('Users', () => {
 
     it('requires names to be at least 4 characters', (done) => {
       chai.request(app)
-        .post(`/users/name`)
+        .post('/users')
         .send({...testUser, name: 'abc'})
         .end((err, res) => {
           expect(res.status).to.equal(400)
@@ -61,7 +61,7 @@ describe('Users', () => {
 
     it('should fail to create a user without an email', (done) => {
       chai.request(app)
-        .post(`/users/email`)
+        .post('/users')
         .send({...testUser, email: ''})
         .end((err, res) => {
           expect(res.status).to.equal(400)
@@ -74,7 +74,7 @@ describe('Users', () => {
     it('requires emails to be valid', (done) => {
       // email regex: /w+[\w-\.]*\@\w+((-\w+)|(\w*))\.[a-z]{2,3}$/gm
       chai.request(app)
-        .post(`/users/name`)
+        .post('/users')
         .send({...testUser, email: 'panda@.com'})
         .end((err, res) => {
           expect(res.status).to.equal(400)
@@ -87,7 +87,7 @@ describe('Users', () => {
 
     it('should fail to create a user without a password', (done) => {
       chai.request(app)
-        .post(`/users/password`)
+        .post('/users')
         .send({...testUser, password: ''})
         .end((err, res) => {
           expect(res.status).to.equal(400)
@@ -99,7 +99,7 @@ describe('Users', () => {
 
     it('should fail to create a user if passwords do not match', (done) => {
       chai.request(app)
-        .post(`/users/name`)
+        .post('/users')
         .send({...testUser, password: 'abc', confirmPassword: 'abd'})
         .end((err, res) => {
           expect(res.status).to.equal(400)
@@ -113,7 +113,7 @@ describe('Users', () => {
   describe('GET /users', () => {
     it('should fetch all users', (done) => {
       chai.request(app)
-        .get(`/users`)
+        .get('/users')
         .end((err, res) => {
           expect(res.status).to.equal(200)
           expect(res.body.data).to.be.ok
@@ -127,7 +127,7 @@ describe('Users', () => {
   describe('GET /users/:id', () => {
     it('should fetch a user', (done) => {
       chai.request(app)
-        .get(`/users/1`)
+        .get('/users/1')
         .end((err, res) => {
           expect(res.status).to.equal(200)
           expect(res.body.data).to.be.ok
@@ -146,7 +146,7 @@ describe('Users', () => {
   describe('PATCH /users/:id', () => {
     it('should not allow users to be edited', (done) => {
       chai.request(app)
-        .patch(`/users/1`)
+        .patch('/users/1')
         .end((err, res) => {
           expect(res.status).to.equal(404)
           done()
@@ -157,7 +157,7 @@ describe('Users', () => {
   describe('DELETE /users/:id', () => {
     it('should not allow users to be deleted', (done) => {
       chai.request(app)
-        .delete(`/users/1`)
+        .delete('/users/1')
         .end((err, res) => {
           expect(res.status).to.equal(404)
           done()
