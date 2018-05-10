@@ -1,6 +1,8 @@
 const users = require('../models/users')
 const { jwtSignAsync } = require('../utils/jsonwebTokenAsync')
 
+const { TOKEN_SECRET } = process.env;
+
 loginUser = (req, res, next) => {
   const email = req.body.email
   const password = req.body.password

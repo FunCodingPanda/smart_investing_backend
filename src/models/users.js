@@ -12,11 +12,13 @@ getAll = () => {
 
 getById = (id) => {
   return knex('users')
+    .first()
     .where({ id })
 }
 
 getByEmail = (email) => {
   return knex('users')
+    .first()
     .where({ email })
 }
 

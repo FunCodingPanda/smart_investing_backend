@@ -80,7 +80,7 @@ describe('Login routes', () => {
         expect(tokenPayload).to.exist;
 
         expect(tokenPayload.sub.id).to.exist;
-        expect(tokenPayload.sub.id).to.equal(3);
+        expect(tokenPayload.sub.id).to.equal(1);
 
         expect(tokenPayload.loggedIn).to.exist;
         expect(tokenPayload.loggedIn).to.be.true;
