@@ -12,11 +12,14 @@ if (process.env.NODE_ENV !== 'test') app.use(morgan('dev'))
 app.use(bodyParser.json())
 app.use(cors())
 
+const loginRouter = require("./src/routers/login.js")
 const usersRouter = require("./src/routers/users.js")
+
+app.use('/login', loginRouter)
 app.use('/users', usersRouter)
 
 app.use((err, req, res, next) => {
-  console.error(err.stack) // Log the stacktrace of any errors that happen
+  console.error(err.stack)
   const status = err.status || 500
   res.status(status).json({ error: err })
 })

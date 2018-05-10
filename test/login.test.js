@@ -11,13 +11,13 @@ describe('Login routes', () => {
 
   describe('POST /login', () => {
 
-    it('should return 401 when not given a username or password', () => {
+    it('should return 401 when not given a email or password', () => {
       return request(app)
         .post('/login')
         .expect(401);
     });
 
-    it('should return 401 when not given a username', () => {
+    it('should return 401 when not given a email', () => {
       return request(app)
         .post('/login')
         .set('Accept', 'application/json')
@@ -31,16 +31,16 @@ describe('Login routes', () => {
         .post('/login')
         .set('Accept', 'application/json')
         .set('Content-Type', 'application/json')
-        .send({ username: 'Rowan' })
+        .send({ email: 'test@test.com' })
         .expect(401);
     });
 
-    it('should return 403 when given a non existent username', () => {
+    it('should return 403 when given a non existent email', () => {
       return request(app)
         .post('/login')
         .set('Accept', 'application/json')
         .set('Content-Type', 'application/json')
-        .send({ username: 'NonExistentUser', password: 'passwordfornonexistentuser' })
+        .send({ email: 'NonExistentUser@gmail.com', password: 'passwordfornonexistentuser' })
         .expect(403);
     });
 
@@ -49,18 +49,18 @@ describe('Login routes', () => {
         .post('/login')
         .set('Accept', 'application/json')
         .set('Content-Type', 'application/json')
-        .send({ username: 'Rown', password: 'thewrongpassword' })
+        .send({ email: 'Rowan@gmail.com', password: 'thewrongpassword' })
         .expect(403);
     });
 
-    it('should respond with a token in an Auth header when given a valid username and password', async () => {
+    it('should respond with a token in an Auth header when given a valid email and password', async () => {
 
       // return request(app)
       const response = await request(app)
         .post('/login')
         .set('Accept', 'application/json')
         .set('Content-Type', 'application/json')
-        .send({ username: 'Rowan', password: 'rowan' })
+        .send({ email: 'test@test.com', password: 'bacon' })
         .expect(200);
 
       const parseTokenFrom = (response) => {

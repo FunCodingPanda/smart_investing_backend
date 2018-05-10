@@ -1,5 +1,5 @@
 //
-// Copied from https://github.com/gSchool/auth-unit-assessment
+// Referencing from https://github.com/gSchool/auth-unit-assessment
 //
 const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
