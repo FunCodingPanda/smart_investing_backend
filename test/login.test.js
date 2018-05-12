@@ -44,13 +44,17 @@ describe('Login routes', () => {
         .expect(403);
     });
 
-    it('should return 403 when given an invalid password', () => {
-      return request(app)
+    it('should return 403 when given an invalid password', async () => {
+      const response = await request(app)
         .post('/login')
         .set('Accept', 'application/json')
         .set('Content-Type', 'application/json')
         .send({ email: 'Rowan@gmail.com', password: 'thewrongpassword' })
         .expect(403);
+
+      expect(response.body).to.be.ok
+      expect(response.body.errors).to.be.ok
+      expect(response.body.errors.password).to.equal('Password was incorrect')
     });
 
     it('should respond with an access token when given a valid email and password', async () => {

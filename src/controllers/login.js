@@ -45,7 +45,9 @@ loginUser = (req, res, next) => {
             })
           } else {
             res.status(403).json({
-              error: 'Password was incorrect.'
+              errors: {
+                password: 'Password was incorrect'
+              }
             })
           }
         })
