@@ -1,4 +1,6 @@
 const users = require('../models/users')
+const { jwtSignAsync } = require('../utils/jsonwebTokenAsync')
+const { TOKEN_SECRET } = process.env;
 
 create = (req, res, next) => {
   if (!req.body.name) {
@@ -29,7 +31,25 @@ create = (req, res, next) => {
           error: 'Failed to create user'
         })
       } else {
-        res.status(201).json({...insertedUser, password: undefined, hashed_password: undefined})
+        const payload = {
+          loggedIn: true,
+          sub: { id: user.id },
+          exp: (Date.now() / 1000) + (60 * 60 * 24 * 30) // now + 30 days
+        };
+        jwtSignAsync(payload, TOKEN_SECRET).then(token => {
+          res.status(201).json({
+            auth: {
+              access_token: token,
+              expires_in: payload.exp,
+              token_type: 'Bearer'
+            },
+            user: {
+              ...insertedUser,
+              password: undefined,
+              hashed_password: undefined
+            }
+          })
+        })
       }
     })
 }

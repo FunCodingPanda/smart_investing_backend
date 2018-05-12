@@ -20,16 +20,16 @@ describe('Users', () => {
         .end((err, res) => {
           expect(res.status).to.equal(201)
           expect(res.body).to.be.ok
-          expect(res.body.id).to.be.ok
-          expect(res.body.name).to.equal(testUser.name)
-          expect(res.body.email).to.equal(testUser.email)
+          expect(res.body.user.id).to.be.ok
+          expect(res.body.user.name).to.equal(testUser.name)
+          expect(res.body.user.email).to.equal(testUser.email)
 
           // Default cash value is $20,000.00
-          expect(res.body.cash).to.equal(20000.00)
+          expect(res.body.user.cash).to.equal(20000.00)
 
           // The response should never have passwords (security flaw)
-          expect(res.body.password).to.not.be.ok
-          expect(res.body.hashed_password).to.not.be.ok
+          expect(res.body.user.password).to.not.be.ok
+          expect(res.body.user.hashed_password).to.not.be.ok
           done()
         })
     })

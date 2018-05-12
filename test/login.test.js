@@ -53,7 +53,7 @@ describe('Login routes', () => {
         .expect(403);
     });
 
-    it('should respond with a token in an Auth header when given a valid email and password', async () => {
+    it('should respond with an access token when given a valid email and password', async () => {
 
       // return request(app)
       const response = await request(app)
@@ -65,8 +65,7 @@ describe('Login routes', () => {
 
       const parseTokenFrom = (response) => {
         try {
-          return response.headers.auth
-          .split(' ')[1];
+          return response.body.auth.access_token;
         } catch(err) {
           console.log('in catch')
         }

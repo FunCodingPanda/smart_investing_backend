@@ -25,13 +25,22 @@ loginUser = (req, res, next) => {
             const payload = {
               loggedIn: true,
               sub: {
-              id: user.id
+                id: user.id
               },
               exp: (Date.now() / 1000) + (60 * 60 * 24 * 30) // now + 30 days
             }
             jwtSignAsync(payload, TOKEN_SECRET).then(token => {
-              res.status(200).set('Auth', `Bearer: ${token}`).json({
-                message: 'Login successful.'
+              res.status(200).json({
+                auth: {
+                  access_token: token,
+                  expires_in: payload.exp,
+                  token_type: 'Bearer'
+                },
+                user: {
+                  ...user,
+                  password: undefined,
+                  hashed_password: undefined
+                }
               })
             })
           } else {
