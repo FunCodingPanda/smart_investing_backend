@@ -1,8 +1,13 @@
 const knex = require('../db')
 const bcrypt = require('bcryptjs')
 
-createUser = (user) => {
-  return {error: 'Not implemented yet'}
+create = (user) => {
+  const hashed_password = bcrypt.hashSync(user.password, 8)
+  delete user.password
+  return knex('users')
+    .returning('*')
+    .insert({...user, hashed_password})
+    .then(results => results[0])
 }
 
 getAll = () => {
@@ -34,7 +39,7 @@ tryLogin = (email, password) => {
 }
 
 module.exports = {
-  createUser,
+  create,
   getAll,
   getById,
   getByEmail,

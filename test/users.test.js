@@ -19,17 +19,17 @@ describe('Users', () => {
         .send(testUser)
         .end((err, res) => {
           expect(res.status).to.equal(201)
-          expect(res.body.data).to.be.ok
-          expect(res.body.data.id).to.be.ok
-          expect(res.body.data.name).to.equal(user.name)
-          expect(res.body.data.email).to.equal(user.email)
+          expect(res.body).to.be.ok
+          expect(res.body.id).to.be.ok
+          expect(res.body.name).to.equal(testUser.name)
+          expect(res.body.email).to.equal(testUser.email)
 
           // Default cash value is $20,000.00
-          expect(res.body.data.cash).to.equal(20000.00)
+          expect(res.body.cash).to.equal(20000.00)
 
           // The response should never have passwords (security flaw)
-          expect(res.body.data.password).to.not.be.ok
-          expect(res.body.data.hashed_password).to.not.be.ok
+          expect(res.body.password).to.not.be.ok
+          expect(res.body.hashed_password).to.not.be.ok
           done()
         })
     })
@@ -40,8 +40,8 @@ describe('Users', () => {
         .send({...testUser, name: ''})
         .end((err, res) => {
           expect(res.status).to.equal(400)
-          expect(res.body.data).to.be.ok
-          expect(res.body.data.error).to.equal('Name is required')
+          expect(res.body).to.be.ok
+          expect(res.body.error).to.equal('Name is required')
           done()
         })
     })
@@ -52,8 +52,8 @@ describe('Users', () => {
         .send({...testUser, name: 'abc'})
         .end((err, res) => {
           expect(res.status).to.equal(400)
-          expect(res.body.data).to.be.ok
-          expect(res.body.data.error).to.equal('Name should be at least 4 characters')
+          expect(res.body).to.be.ok
+          expect(res.body.error).to.equal('Name should be at least 4 characters')
           done()
         })
       
@@ -65,8 +65,8 @@ describe('Users', () => {
         .send({...testUser, email: ''})
         .end((err, res) => {
           expect(res.status).to.equal(400)
-          expect(res.body.data).to.be.ok
-          expect(res.body.data.error).to.equal('Email is required')
+          expect(res.body).to.be.ok
+          expect(res.body.error).to.equal('Email is required')
           done()
         })
     })
@@ -78,8 +78,8 @@ describe('Users', () => {
         .send({...testUser, email: 'panda@.com'})
         .end((err, res) => {
           expect(res.status).to.equal(400)
-          expect(res.body.data).to.be.ok
-          expect(res.body.data.error).to.equal('Email is invalid')
+          expect(res.body).to.be.ok
+          expect(res.body.error).to.equal('Email is invalid')
           done()
         })
       
@@ -91,8 +91,8 @@ describe('Users', () => {
         .send({...testUser, password: ''})
         .end((err, res) => {
           expect(res.status).to.equal(400)
-          expect(res.body.data).to.be.ok
-          expect(res.body.data.error).to.equal('Password is required')
+          expect(res.body).to.be.ok
+          expect(res.body.error).to.equal('Password is required')
           done()
         })
     })
@@ -103,8 +103,8 @@ describe('Users', () => {
         .send({...testUser, password: 'abc', confirmPassword: 'abd'})
         .end((err, res) => {
           expect(res.status).to.equal(400)
-          expect(res.body.data).to.be.ok
-          expect(res.body.data.error).to.equal('Passwords do not match')
+          expect(res.body).to.be.ok
+          expect(res.body.error).to.equal('Passwords do not match')
           done()
         })
     })
@@ -116,9 +116,9 @@ describe('Users', () => {
         .get('/users')
         .end((err, res) => {
           expect(res.status).to.equal(200)
-          expect(res.body.data).to.be.ok
-          expect(res.body.data.users).to.be.ok
-          expect(res.body.data.users.length).to.be.ok
+          expect(res.body).to.be.ok
+          expect(res.body.users).to.be.ok
+          expect(res.body.users.length).to.be.ok
           done()
         })
     })
@@ -130,14 +130,14 @@ describe('Users', () => {
         .get('/users/1')
         .end((err, res) => {
           expect(res.status).to.equal(200)
-          expect(res.body.data).to.be.ok
-          expect(res.body.data.id).to.be.ok
-          expect(res.body.data.name).to.be.ok
-          expect(res.body.data.email).to.be.ok
+          expect(res.body).to.be.ok
+          expect(res.body.id).to.be.ok
+          expect(res.body.name).to.be.ok
+          expect(res.body.email).to.be.ok
 
           // The response should never have passwords (security flaw)
-          expect(res.body.data.password).to.not.be.ok
-          expect(res.body.data.hashed_password).to.not.be.ok
+          expect(res.body.password).to.not.be.ok
+          expect(res.body.hashed_password).to.not.be.ok
           done()
         })
     })

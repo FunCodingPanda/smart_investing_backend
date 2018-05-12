@@ -25,7 +25,7 @@ loginUser = (req, res, next) => {
             const payload = {
               loggedIn: true,
               sub: {
-                id: user.id
+              id: user.id
               },
               exp: (Date.now() / 1000) + (60 * 60 * 24 * 30) // now + 30 days
             }
