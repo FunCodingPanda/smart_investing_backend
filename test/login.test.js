@@ -11,13 +11,13 @@ describe('Login routes', () => {
 
   describe('POST /login', () => {
 
-    it('should return 401 when not given a email or password', () => {
+    it('should return 401 when not given an email or password', () => {
       return request(app)
         .post('/login')
         .expect(401);
     });
 
-    it('should return 401 when not given a email', () => {
+    it('should return 401 when not given an email', () => {
       return request(app)
         .post('/login')
         .set('Accept', 'application/json')
