@@ -10,6 +10,13 @@ create = (user) => {
     .then(results => results[0])
 }
 
+decrementCash = (id, amount) => {
+  // ex: "UPDATE users SET cash = cash - 5 WHERE id = 1";
+  return knex('users')
+    .where({ id })
+    .decrement('cash', amount);
+}
+
 getAll = () => {
   return knex('users')
     .select()
@@ -40,6 +47,7 @@ tryLogin = (email, password) => {
 
 module.exports = {
   create,
+  decrementCash,
   getAll,
   getById,
   getByEmail,

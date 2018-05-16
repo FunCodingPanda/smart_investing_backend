@@ -13,10 +13,16 @@ app.use(bodyParser.json())
 app.use(cors())
 
 const loginRouter = require("./src/routers/login.js")
+const stocksRouter = require("./src/routers/stocks.js")
 const usersRouter = require("./src/routers/users.js")
+const holdingsRouter = require("./src/routers/holdings.js")
+const transactionRouter = require("./src/routers/transactions.js")
 
 app.use('/login', loginRouter)
+app.use('/stocks', stocksRouter)
 app.use('/users', usersRouter)
+app.use('/holdings', holdingsRouter)
+app.use('/transactions', transactionRouter)
 
 app.use((err, req, res, next) => {
   console.error(err.stack)
