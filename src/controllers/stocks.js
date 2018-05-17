@@ -49,7 +49,7 @@ buy = async (req, res, next) => {
   // 5. Add some error handling (make sure stock exists, make sure user has enough cash)
 }
 
-sell = (req, res, next) => {
+sell = async (req, res, next) => {
   const { symbol } = req.params;
   const { userId, quantity, price } = req.body;
 
@@ -60,9 +60,15 @@ sell = (req, res, next) => {
     });
   }
 
-  //
+  let ids = await holdings.getByUserIdAndStockId(userId, stock.id);
+  if (ids.quantity < quantity) {
+    return res.status(400).json({
+      error: `You only have ${ids.quantity} ${symbol}, but tried to sell ${quantity}`
+    });
+  }
+
   user = await users.incrementCash(userId, price * quantity)
-  const holding = await holdings.decrement(userId, stock.id, quantity)
+  let holding = await holdings.decrement(userId, stock.id, quantity)
 
   const transaction = {
     user_id: userId,

@@ -39,7 +39,11 @@ getByUserId = (user_id) => {
     .where('holdings.user_id', '=', user_id)
 }
 
-//
+getByUserIdAndStockId = (user_id, stock_id) => {
+  return knex('holdings')
+    .where({ user_id, stock_id })
+}
+
 
 getAll = () => {
   return knex('holdings')
@@ -50,7 +54,7 @@ module.exports = {
   createOrIncrement,
   decrement,
   getByUserId,
-  getAll
- 
+  getAll,
+  getByUserIdAndStockId
 }
 
