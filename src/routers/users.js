@@ -1,9 +1,12 @@
 const express = require('express')
 const router = express.Router()
-const ctrl = require('../controllers/users')
+const usersCtrl = require('../controllers/users')
+const holdingsCtrl = require('../controllers/holdings')
 
-router.post('/', ctrl.create)
-router.get('/', ctrl.getAll)
-router.get('/:id', ctrl.getById)
+router.post('/', usersCtrl.create)
+router.get('/', usersCtrl.getAll)
+router.get('/:id', usersCtrl.getById)
+
+router.get('/:id/holdings', holdingsCtrl.getByUserId)
 
 module.exports = router

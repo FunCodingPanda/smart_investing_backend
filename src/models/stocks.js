@@ -8,7 +8,7 @@ getAll = () => {
 getBySymbol = (symbol) => {
   return knex('stocks')
     .first()
-    .where({ symbol })
+    .where({ ticker_symbol: symbol })
 }
 
 module.exports = {

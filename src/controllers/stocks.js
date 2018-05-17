@@ -8,12 +8,21 @@ buy = async (req, res, next) => {
   const { userId, quantity, price } = req.body;
 
   const stock = await stocks.getBySymbol(symbol)
+  if (!stock) {
+    return res.status(404).json({
+      error: 'Stock does not exist'
+    });
+  }
 
-  // 5. Ensure the stock exists
-  // 6. fetch the user and make sure they have enough cash
+  let user = await users.getById(userId);
+  if (user.cash < quantity * price) {
+    return res.status(400).json({
+      error: 'User does not have enough cash for this purchase'
+    });
+  }
 
-  await users.decrementCash(userId, price * quantity)
-  await holdings.createOrIncrement(userId, stock.id, quantity)
+  user = await users.decrementCash(userId, price * quantity)
+  const holding = await holdings.createOrIncrement(userId, stock.id, quantity)
 
   const transaction = {
     user_id: userId,
@@ -24,18 +33,53 @@ buy = async (req, res, next) => {
     type: 'buy'
   }
 
-  await transactions.create(transaction)
+  const createdTransaction = await transactions.create(transaction)
+
+  return res.status(200).json({
+    transaction: createdTransaction,
+    holding: holding,
+    cash: user.cash
+  });
+  
   // 1. Look up the stock by symbol (req.params.symbol)
   // 2. Add the stock to holdings (holdings.create or holdings.update)
   // 3. Create a transaction (transactions.create)
   // 4. Update the user's cash (users.update)
+  // await users.update(user.cash) 
   // 5. Add some error handling (make sure stock exists, make sure user has enough cash)
 }
 
 sell = (req, res, next) => {
-  return res.status(501).json({
-    error: 'Not Implemented'
-  })
+  const { symbol } = req.params;
+  const { userId, quantity, price } = req.body;
+
+  const stock = await stocks.getBySymbol(symbol)
+  if (!stock) {
+    return res.status(404).json({
+      error: 'Stock does not exist'
+    });
+  }
+
+  //
+  user = await users.incrementCash(userId, price * quantity)
+  const holding = await holdings.decrement(userId, stock.id, quantity)
+
+  const transaction = {
+    user_id: userId,
+    stock_id: stock.id,
+    price,
+    quantity,
+    total: price * quantity,
+    type: 'sell'
+  }
+
+  const createdTransaction = await transactions.create(transaction)
+
+  return res.status(200).json({
+    transaction: createdTransaction,
+    holding: holding,
+    cash: user.cash
+  });
 }
 
 getAll = (req, res, next) => {

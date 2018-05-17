@@ -4,6 +4,7 @@ create = (transaction) => {
   return knex('transactions')
     .returning('*')
     .insert(transaction)
+    .then(transactions => transactions[0]);
 }
 
 getAll = () => {

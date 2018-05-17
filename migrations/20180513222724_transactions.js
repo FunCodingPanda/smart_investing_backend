@@ -18,7 +18,6 @@ exports.down = function(knex, Promise) {
   return knex.schema.dropTableIfExists('transactions')
 };
 
-// This is what enums look like
 //
 // enum Dogs {
 //   GOLDEN_RETRIEVER = 1,

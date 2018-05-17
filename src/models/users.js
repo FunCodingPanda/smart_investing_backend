@@ -14,7 +14,18 @@ decrementCash = (id, amount) => {
   // ex: "UPDATE users SET cash = cash - 5 WHERE id = 1";
   return knex('users')
     .where({ id })
-    .decrement('cash', amount);
+    .returning('*')
+    .decrement('cash', amount)
+    .then(users => users[0]);
+}
+
+incrementCash = (id, amount) => {
+  // ex: "UPDATE users SET cash = cash + 5 WHERE id = 1";
+  return knex('users')
+    .where({ id })
+    .returning('*')
+    .increment('cash', amount)
+    .then(users => users[0]);
 }
 
 getAll = () => {
@@ -51,5 +62,6 @@ module.exports = {
   getAll,
   getById,
   getByEmail,
+  incrementCash,
   tryLogin
 }
