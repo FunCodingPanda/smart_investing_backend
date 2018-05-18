@@ -38,9 +38,12 @@ getByUserId = (user_id) => {
     .select('holdings.quantity', 'stocks.ticker_symbol', 'stocks.name')
     .where('holdings.user_id', '=', user_id)
 }
-
+  // SELECT *
+  // FROM holdings 
+  // LIMIT 1
 getByUserIdAndStockId = (user_id, stock_id) => {
   return knex('holdings')
+    .first()
     .where({ user_id, stock_id })
 }
 

@@ -12,20 +12,31 @@ create = (user) => {
 
 decrementCash = (id, amount) => {
   // ex: "UPDATE users SET cash = cash - 5 WHERE id = 1";
-  return knex('users')
-    .where({ id })
-    .returning('*')
-    .decrement('cash', amount)
-    .then(users => users[0]);
+  // Normally this would use knex "decrement", however it has a bug when
+  // dealing with floats: https://github.com/tgriesser/knex/issues/868
+  // So instead a raw query is used.
+  return knex.raw('UPDATE users SET cash = cash - :amount WHERE id = :id returning *', {
+    id,
+    amount
+  }).then(result => result.rows[0]);
+  // return knex('users')
+  //   .where({ id })
+  //   .returning('*')
+  //   .decrement('cash', amount)
+  //   .then(users => users[0]);
 }
 
 incrementCash = (id, amount) => {
   // ex: "UPDATE users SET cash = cash + 5 WHERE id = 1";
-  return knex('users')
-    .where({ id })
-    .returning('*')
-    .increment('cash', amount)
-    .then(users => users[0]);
+  return knex.raw('UPDATE users SET cash = cash + :amount WHERE id = :id returning *', {
+    id,
+    amount
+  }).then(result => result.rows[0]);
+  // return knex('users')
+  //   .where({ id })
+  //   .returning('*')
+  //   .increment('cash', amount)
+  //   .then(users => users[0]);
 }
 
 getAll = () => {

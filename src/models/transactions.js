@@ -12,7 +12,22 @@ getAll = () => {
     .select()
 }
 
+getByUserId = (user_id) => {
+  return knex('transactions')
+    .join('stocks', 'stocks.id', 'transactions.stock_id')
+    .select(
+      'quantity',
+      'price',
+      'total',
+      'ticker_symbol',
+      'name',
+      'transactions.created_at',
+      'type')
+    .where('transactions.user_id', '=', user_id)
+}
+
 module.exports = {
   create,
-  getAll
+  getAll,
+  getByUserId
 }

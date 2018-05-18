@@ -5,7 +5,9 @@ const users = require('../models/users')
 
 buy = async (req, res, next) => {
   const { symbol } = req.params;
-  const { userId, quantity, price } = req.body;
+  const quantity = parseInt(req.body.quantity, 10);
+  const price = parseFloat(req.body.price);
+  const { userId } = req.body;
 
   const stock = await stocks.getBySymbol(symbol)
   if (!stock) {
@@ -51,7 +53,9 @@ buy = async (req, res, next) => {
 
 sell = async (req, res, next) => {
   const { symbol } = req.params;
-  const { userId, quantity, price } = req.body;
+  const quantity = parseInt(req.body.quantity, 10);
+  const price = parseFloat(req.body.price);
+  const { userId } = req.body;
 
   const stock = await stocks.getBySymbol(symbol)
   if (!stock) {
@@ -60,10 +64,10 @@ sell = async (req, res, next) => {
     });
   }
 
-  let ids = await holdings.getByUserIdAndStockId(userId, stock.id);
-  if (ids.quantity < quantity) {
+  let currentHolding = await holdings.getByUserIdAndStockId(userId, stock.id);
+  if (currentHolding.quantity < quantity) {
     return res.status(400).json({
-      error: `You only have ${ids.quantity} ${symbol}, but tried to sell ${quantity}`
+      error: `You only have ${currentHolding.quantity} ${symbol}, but tried to sell ${quantity}`
     });
   }
 

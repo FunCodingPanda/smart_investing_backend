@@ -10,7 +10,7 @@ exports.up = function(knex, Promise) {
     table.float('price')
     table.float('total')
     table.enu('type', ['buy', 'sell'])
-    table.timestamp(true, true)
+    table.timestamps(true, true)
   })
 };
 

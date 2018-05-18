@@ -14,6 +14,19 @@ getAll = (req, res, next) => {
   })
 }
 
+getByUserId = (req, res, next) => {
+  transactions.getByUserId(req.params.id).then((transactions, error) => {
+    if (error) {
+      res.status(404).json({
+        error: 'transactions not found'
+      })
+    } else {
+      res.status(200).json(transactions)
+    }
+  })
+}
+
 module.exports = {
-  getAll
+  getAll,
+  getByUserId
 }

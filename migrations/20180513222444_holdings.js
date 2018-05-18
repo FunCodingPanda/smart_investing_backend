@@ -7,7 +7,7 @@ exports.up = function(knex, Promise) {
     table.integer('stock_id')
     table.foreign('stock_id').references('id').inTable('stocks').onDelete('CASCADE')
     table.integer('quantity')
-    table.timestamp(true, true)
+    table.timestamps(true, true)
  })
 }
 
