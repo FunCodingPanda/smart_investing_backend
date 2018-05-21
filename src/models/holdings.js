@@ -14,7 +14,10 @@ createOrIncrement = (user_id, stock_id, quantity) => {
         return knex('holdings')
           .returning('*')
           .insert({ user_id, stock_id, quantity })
-          .then(holdings => holdings[0]);
+          .then(holdings => {
+            console.log(holdings);
+            return holdings[0]
+          });
       }
     })
 }

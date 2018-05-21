@@ -24,6 +24,7 @@ getByUserId = (user_id) => {
       'transactions.created_at',
       'type')
     .where('transactions.user_id', '=', user_id)
+    .orderBy('created_at', 'desc')
 }
 
 module.exports = {
