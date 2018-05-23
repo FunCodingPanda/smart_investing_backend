@@ -35,11 +35,12 @@ getByUserId = (user_id) => {
   // FROM holdings
   // JOIN stocks
   // ON holdings.stock_id = stocks.id
-  // WHERE user_id = 4;
+  // WHERE user_id = 4 AND quantity > 0;
   return knex('holdings')
     .join('stocks', 'stocks.id', 'holdings.stock_id')
     .select('holdings.quantity', 'stocks.ticker_symbol', 'stocks.name')
     .where('holdings.user_id', '=', user_id)
+    .andWhere('quantity', '>', 0); // only select holdings with quantity > 0
 }
   // SELECT *
   // FROM holdings 
